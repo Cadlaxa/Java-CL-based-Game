@@ -77,6 +77,9 @@ public class Game {
             board.processMove(move);
             soundManager.playSound("command_line_game/src/main/resources/move.wav");
 
+            // Randomly play tile sound at each step (even if no tile > 2048)
+            soundManager.playRandomSound();
+
             // Check if a new highest tile has been reached
             int currentHighestTile = board.getHighestTile();
             if (currentHighestTile > lastHighestTile) {
