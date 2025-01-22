@@ -8,7 +8,7 @@ public class Board {
     private static final char MOVE_RIGHT = 'D';
     private static final char MOVE_UP = 'W';
     private static final char MOVE_DOWN = 'S';
-    final String VERSION = "v1.8";
+    final String VERSION = "v1.9";
 
     private int score; // Track the score
     private int[][] board;
@@ -63,7 +63,7 @@ public class Board {
                     "    __) | | | | || |_ / _ \\ \r\n" + 
                     "   / __/| |_| |__   _| (_) |\r\n" + 
                     "  |_____|\\___/   |_|  \\___/ \r\n" + 
-                    "              " + VERSION + "\r" + 
+                    "         retro " + VERSION + "\r" + 
                     RESET);
 
 		// print the top separator (sa taas to ng box)

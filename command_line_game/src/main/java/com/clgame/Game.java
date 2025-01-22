@@ -200,6 +200,16 @@ public class Game {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        } else if (!board.gameWon()) {
+            // Stop background music when the game ends
+            soundManager.stopBackgroundMusic();
+            System.out.println(BOLD + MAGENTA + "\nYou LOST!"+ RESET);
+            soundManager.playSound("command_line_game/src/main/resources/lose.wav");
+            try {
+                Thread.sleep(4000);  // 4000 milliseconds = 4 seconds
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } else {
             // Stop background music when the game ends
             soundManager.stopBackgroundMusic();

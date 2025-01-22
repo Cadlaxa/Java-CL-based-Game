@@ -92,7 +92,7 @@ public class SoundManagerImpl implements SoundManager {
     // Method to play random sound for tiles > 2048
     public void playRandomSound() {
         // Random chance to play a tile sound
-        if (random.nextInt(100) < 3) { // 3% chance to play a random tile sound
+        if (random.nextInt(100) < 4) { // 4% chance to play a random tile sound
             String randomSound = randomTileSounds.get(random.nextInt(randomTileSounds.size()));
             playSound(randomSound);
         }
