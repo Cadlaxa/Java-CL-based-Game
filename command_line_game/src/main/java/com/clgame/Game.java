@@ -1,5 +1,9 @@
 package com.clgame;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -10,6 +14,9 @@ public class Game {
     private Scanner scanner;
     private HighScoreManager highScoreManager;
     private int highScore;
+    private int lastHighestTile;
+    private Map<Integer, String> tileSounds; // Map to store tile-specific sounds
+    private List<String> highTileSounds; // List for random sounds above 2048
 
     public Game() {
         board = new Board();
@@ -18,6 +25,28 @@ public class Game {
         scanner = new Scanner(System.in); // Initialize the Scanner
         highScoreManager = new HighScoreManager();
         highScore = highScoreManager.loadHighScore(); // Load high score
+        lastHighestTile = 0;
+
+        // Initialize tile-specific sounds for 8, 16, 32, etc.
+        tileSounds = new HashMap<>();
+        tileSounds.put(8, "command_line_game/src/main/resources/tiles1/8.wav");
+        tileSounds.put(16, "command_line_game/src/main/resources/tiles1/16.wav");
+        tileSounds.put(32, "command_line_game/src/main/resources/tiles1/32.wav");
+        tileSounds.put(64, "command_line_game/src/main/resources/tiles1/64.wav");
+        tileSounds.put(128, "command_line_game/src/main/resources/tiles1/128.wav");
+        tileSounds.put(256, "command_line_game/src/main/resources/tiles1/256.wav");
+        tileSounds.put(512, "command_line_game/src/main/resources/tiles1/512.wav");
+        tileSounds.put(1024, "command_line_game/src/main/resources/tiles1/1024.wav");
+        tileSounds.put(2048, "command_line_game/src/main/resources/tiles1/2048.wav");
+
+        // Initialize random sounds for tiles higher than 2048
+        highTileSounds = new ArrayList<>();
+        highTileSounds.add("command_line_game/src/main/resources/tiles1/one.wav");
+        highTileSounds.add("command_line_game/src/main/resources/tiles1/two.wav");
+        highTileSounds.add("command_line_game/src/main/resources/tiles1/three.wav");
+        highTileSounds.add("command_line_game/src/main/resources/tiles1/four.wav");
+        highTileSounds.add("command_line_game/src/main/resources/tiles1/five.wav");
+
     }
 
     public void play() {
@@ -26,7 +55,13 @@ public class Game {
         board.addRandomDigit(4);
 
         // Play background music
-        soundManager.playBackgroundMusic("command_line_game/src/main/resources/melody-loop.wav");
+        List<String> musicFilePaths = List.of(
+        "command_line_game/src/main/resources/melody-loop.wav",
+        "command_line_game/src/main/resources/melody-loop1.wav",
+        "command_line_game/src/main/resources/melody-loop2.wav"
+        // Add more music files as needed
+        );
+        soundManager.playBackgroundMusic(musicFilePaths);
 
         // Game loop
         while (!board.isGameOver()) {
@@ -41,6 +76,13 @@ public class Game {
             char move = getUserMove();
             board.processMove(move);
             soundManager.playSound("command_line_game/src/main/resources/move.wav");
+
+            // Check if a new highest tile has been reached
+            int currentHighestTile = board.getHighestTile();
+            if (currentHighestTile > lastHighestTile) {
+                playTileReachedSound(currentHighestTile);
+                lastHighestTile = currentHighestTile; // Update the last highest tile
+            }
 
             // Add a random 2 or 4
             int r = random.nextInt(100);
@@ -104,6 +146,28 @@ public class Game {
 
         // Recur
         return getUserMove();
+    }
+
+    private void playTileReachedSound(int tileValue) {
+        final String RESET = "\u001B[0m";
+        final String BOLD = "\u001B[1m";
+        final String MAGENTA = "\u001B[48;5;201m";
+        try {
+            // Check if a specific sound exists for the tile
+            if (tileSounds.containsKey(tileValue)) {
+                String soundPath = tileSounds.get(tileValue);
+                soundManager.playSound(soundPath);
+            }
+            // For tiles higher than 2048, play a random sound
+            else if (tileValue > 2048) {
+                String randomSound = highTileSounds.get(random.nextInt(highTileSounds.size()));
+                soundManager.playSound(randomSound);
+            }
+        } catch (Exception e) {
+            // Log the error and print a message to the user
+            System.out.println(BOLD + MAGENTA + "Error playing sound for tile: " + tileValue + RESET);
+            System.out.println(BOLD + MAGENTA + "Error: " + e.getMessage() + RESET);
+        }
     }
 
     private void endGame() {

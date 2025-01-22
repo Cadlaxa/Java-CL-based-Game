@@ -8,15 +8,18 @@ public class Board {
     private static final char MOVE_RIGHT = 'D';
     private static final char MOVE_UP = 'W';
     private static final char MOVE_DOWN = 'S';
+    final String VERSION = "v1.3";
 
     private int score; // Track the score
     private int[][] board;
     private Random random;
+    private int highestTile; // Track the highest tile
 
     public Board() {
         this.board = new int[SIZE][SIZE];
         this.random = new Random();
         this.score = 0; // Initialize score to 0
+        this.highestTile = 0; // Initialize highest tile to 0
     }
 
     public int getScore() {
@@ -25,6 +28,10 @@ public class Board {
 
     public void resetScore() {
         this.score = 0;
+    }
+
+    public int getHighestTile() {
+        return highestTile;
     }
 
     public void showBoard() {
@@ -50,13 +57,15 @@ public class Board {
 
 		final String YELLOWT = "\u001B[33m";
 
-		System.out.println(BOLD + YELLOWT + "\r\n" + //
-						"   ____   ___  _  _    ___  \r\n" + //
-						"  |___ \\ / _ \\| || |  ( _ ) \r\n" + //
-						"    __) | | | | || |_ / _ \\ \r\n" + //
-						"   / __/| |_| |__   _| (_) |\r\n" + //
-						"  |_____|\\___/   |_|  \\___/ \r\n" + //
-						"" + RESET);
+		System.out.println(BOLD + YELLOWT + "\r\n" + 
+                    "   ____   ___  _  _    ___  \r\n" + 
+                    "  |___ \\ / _ \\| || |  ( _ ) \r\n" + 
+                    "    __) | | | | || |_ / _ \\ \r\n" + 
+                    "   / __/| |_| |__   _| (_) |\r\n" + 
+                    "  |_____|\\___/   |_|  \\___/ \r\n" + 
+                    "              " + VERSION + "\r" + 
+                    RESET);
+
 		// print the top separator (sa taas to ng box)
 		for (int i = 0; i < 4; i++) {
 			System.out.print(BOLD + "-------");
@@ -164,6 +173,7 @@ public class Board {
             if (newRow[i] != 0 && newRow[i] == newRow[i + 1]) {
                 newRow[i] *= 2;
                 score += newRow[i]; // Update score on merge
+                highestTile = Math.max(highestTile, newRow[i]); // Update highest tile
                 newRow[i + 1] = 0;
             }
         }
