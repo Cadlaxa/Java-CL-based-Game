@@ -12,7 +12,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 
-public class ConsoleApp2048 {
+public class Console2048BackupSingleFileVer {
 
 	// Field to store the background music clip
     private Clip backgroundMusicClip;
@@ -26,7 +26,7 @@ public class ConsoleApp2048 {
 	private Random random;
 	private Scanner scanner;
 
-	public ConsoleApp2048() {
+	public Console2048BackupSingleFileVer() {
 		// all locations of this 2D array is 0
 		board = new int[4][4];
 
@@ -499,7 +499,7 @@ public class ConsoleApp2048 {
 	}
 
 	public static void main(String args[]) {
-		ConsoleApp2048 ConsoleApp2048 = new ConsoleApp2048();
-		ConsoleApp2048.play();
+		Console2048BackupSingleFileVer Console2048BackupSingleFileVer = new Console2048BackupSingleFileVer();
+		Console2048BackupSingleFileVer.play();
 	}
 }
