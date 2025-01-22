@@ -21,6 +21,10 @@ public class SoundManagerImpl implements SoundManager {
         randomTileSounds.add("command_line_game/src/main/resources/tiles1/three.wav");
         randomTileSounds.add("command_line_game/src/main/resources/tiles1/four.wav");
         randomTileSounds.add("command_line_game/src/main/resources/tiles1/five.wav");
+        randomTileSounds.add("command_line_game/src/main/resources/random1/ate.wav");
+        randomTileSounds.add("command_line_game/src/main/resources/random1/do-mi-sol.wav");
+        randomTileSounds.add("command_line_game/src/main/resources/random1/keep-it-going.wav");
+        randomTileSounds.add("command_line_game/src/main/resources/random1/my-lime.wav");
     }
 
     @Override
@@ -88,7 +92,7 @@ public class SoundManagerImpl implements SoundManager {
     // Method to play random sound for tiles > 2048
     public void playRandomSound() {
         // Random chance to play a tile sound
-        if (random.nextInt(100) < 5) { // 5% chance to play a random tile sound
+        if (random.nextInt(100) < 2) { // 2% chance to play a random tile sound
             String randomSound = randomTileSounds.get(random.nextInt(randomTileSounds.size()));
             playSound(randomSound);
         }
