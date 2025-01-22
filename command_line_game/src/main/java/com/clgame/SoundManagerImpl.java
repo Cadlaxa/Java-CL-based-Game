@@ -23,6 +23,7 @@ public class SoundManagerImpl implements SoundManager {
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(musicFile);
             backgroundMusicClip = AudioSystem.getClip();
             backgroundMusicClip.open(audioIn);
+            setVolume(0.7f);
             backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the music
             backgroundMusicClip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
@@ -47,6 +48,15 @@ public class SoundManagerImpl implements SoundManager {
             clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
+        }
+    }
+    // Method to set volume
+    private void setVolume(float volume) {
+        if (backgroundMusicClip != null) {
+            FloatControl gainControl = (FloatControl) backgroundMusicClip.getControl(FloatControl.Type.MASTER_GAIN);
+            // Convert volume from a range of 0.0 to 1.0 to dB scale
+            float dB = (float) (Math.log(volume) / Math.log(10.0) * 20.0);
+            gainControl.setValue(dB);  // Set the volume in decibels
         }
     }
 }
