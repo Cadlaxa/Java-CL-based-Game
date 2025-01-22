@@ -9,12 +9,22 @@ public class Board {
     private static final char MOVE_UP = 'W';
     private static final char MOVE_DOWN = 'S';
 
+    private int score; // Track the score
     private int[][] board;
     private Random random;
 
     public Board() {
         this.board = new int[SIZE][SIZE];
         this.random = new Random();
+        this.score = 0; // Initialize score to 0
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void resetScore() {
+        this.score = 0;
     }
 
     public void showBoard() {
@@ -47,7 +57,6 @@ public class Board {
 						"   / __/| |_| |__   _| (_) |\r\n" + //
 						"  |_____|\\___/   |_|  \\___/ \r\n" + //
 						"" + RESET);
-	
 		// print the top separator (sa taas to ng box)
 		for (int i = 0; i < 4; i++) {
 			System.out.print(BOLD + "-------");
@@ -154,6 +163,7 @@ public class Board {
         for (int i = 0; i < SIZE - 1; i++) {
             if (newRow[i] != 0 && newRow[i] == newRow[i + 1]) {
                 newRow[i] *= 2;
+                score += newRow[i]; // Update score on merge
                 newRow[i + 1] = 0;
             }
         }

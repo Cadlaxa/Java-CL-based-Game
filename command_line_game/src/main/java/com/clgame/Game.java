@@ -8,12 +8,16 @@ public class Game {
     private Random random;
     private SoundManager soundManager;
     private Scanner scanner;
+    private HighScoreManager highScoreManager;
+    private int highScore;
 
     public Game() {
         board = new Board();
         random = new Random();
         soundManager = new SoundManagerImpl();
         scanner = new Scanner(System.in); // Initialize the Scanner
+        highScoreManager = new HighScoreManager();
+        highScore = highScoreManager.loadHighScore(); // Load high score
     }
 
     public void play() {
@@ -27,6 +31,13 @@ public class Game {
         // Game loop
         while (!board.isGameOver()) {
             board.showBoard();
+            final String RESET = "\u001B[0m";
+            final String BOLD = "\u001B[1m";
+            final String YELLOW = "\u001B[33m";
+            final String CYAN = "\u001B[36m";
+            
+            System.out.println(BOLD + YELLOW + "Current Score: " + board.getScore() + RESET);
+            System.out.println(BOLD + CYAN + "High Score: " + highScore + RESET);
             char move = getUserMove();
             board.processMove(move);
             soundManager.playSound("command_line_game/src/main/resources/move.wav");
@@ -104,14 +115,35 @@ public class Game {
         final String CYAN = "\u001B[46m";
         board.showBoard(); // Display the final state of the board
 
-        if (board.gameWon()) {
-            System.out.println(BOLD + CYAN + "\nYou WON SLAYED!");
-            soundManager.playSound("command_line_game/src/main/resources/win.wav");
-        } else {
-            System.out.println(BOLD + MAGENTA + "\nYou LOST!");
-            soundManager.playSound("command_line_game/src/main/resources/lose.wav");
+        System.out.println("Final Score: " + board.getScore());
+        
+        if (board.getScore() > highScore) {
+            highScore = board.getScore();
+            System.out.println("New High Score!");
+            highScoreManager.saveHighScore(highScore);
         }
-        // Stop background music when the game ends
-        soundManager.stopBackgroundMusic();
+
+        if (board.gameWon()) {
+            // Stop background music when the game ends
+            soundManager.stopBackgroundMusic();
+            System.out.println(BOLD + CYAN + "\nYou WON SLAYED!"+ RESET);
+            soundManager.playSound("command_line_game/src/main/resources/win.wav");
+            try {
+                Thread.sleep(3000);  // 3000 milliseconds = 3 seconds
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Stop background music when the game ends
+            soundManager.stopBackgroundMusic();
+            System.out.println(BOLD + MAGENTA + "\nYou LOST!"+ RESET);
+            soundManager.playSound("command_line_game/src/main/resources/lose.wav");
+            try {
+                Thread.sleep(4000);  // 4000 milliseconds = 4 seconds
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        
     }
 }
