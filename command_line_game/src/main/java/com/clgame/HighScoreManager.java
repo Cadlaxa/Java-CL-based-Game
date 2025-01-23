@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HighScoreManager {
-    private static final String FILE_NAME = "command_line_game/src/main/resources/highscore.yaml";
+    private static final String FILE_NAME = "command_line_game/src/main/highscore.yaml";
 
     public int loadHighScore() {
         Yaml yaml = new Yaml();

@@ -16,6 +16,8 @@ public class SoundManagerImpl implements SoundManager {
     private List<String> randomTileSounds; // List to store random sounds that will be played at intervals
     final String TILES1 = "command_line_game/src/main/resources/tiles1/";
     final String RAND1 = "command_line_game/src/main/resources/random1/";
+    final String TILES2 = "command_line_game/src/main/resources/tiles2/";
+
 
     public SoundManagerImpl() {
         // Initialize random sounds that will be played periodically
@@ -25,10 +27,13 @@ public class SoundManagerImpl implements SoundManager {
         randomTileSounds.add(TILES1 + "three.wav");
         randomTileSounds.add(TILES1 + "four.wav");
         randomTileSounds.add(TILES1 + "five.wav");
+        randomTileSounds.add(TILES1 + "256.wav");
         randomTileSounds.add(RAND1 + "ate.wav");
         randomTileSounds.add(RAND1 + "do-mi-sol.wav");
         randomTileSounds.add(RAND1 + "keep-it-going.wav");
         randomTileSounds.add(RAND1 + "my-lime.wav");
+        randomTileSounds.add(TILES2 + "512.wav");
+        randomTileSounds.add(TILES2 + "2048.wav");
     }
 
     @Override

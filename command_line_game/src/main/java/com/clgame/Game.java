@@ -17,10 +17,15 @@ public class Game {
     private int lastHighestTile;
     private Map<Integer, List<String>> tileSounds; // Map to store tile-specific sounds
     private List<String> highTileSounds; // List for random sounds above 2048
+    // HC sfx
+    private Map<Integer, String> scoreSounds;
+    private List<String> highScoreRandomSounds;
+    private int lastMilestone = 0;
 
     final String RES = "command_line_game/src/main/resources/";
     final String TILES1 = "command_line_game/src/main/resources/tiles1/";
     final String TILES2 = "command_line_game/src/main/resources/tiles2/";
+    final String HC = "command_line_game/src/main/resources/scores-sfx/";
 
     public Game() {
         board = new Board();
@@ -30,6 +35,8 @@ public class Game {
         highScoreManager = new HighScoreManager();
         highScore = highScoreManager.loadHighScore(); // Load high score
         lastHighestTile = 0;
+        initializeScoreSounds();
+        initializeHighScoreRandomSounds();
 
         // Initialize tile-specific sounds for 8, 16, 32, etc.
         tileSounds = new HashMap<>();
@@ -51,6 +58,47 @@ public class Game {
         highTileSounds.add(TILES1 + "four.wav");
         highTileSounds.add(TILES1 + "five.wav");
 
+    }
+
+    private void initializeScoreSounds() {
+        // Add sounds for specific scores
+        scoreSounds = new HashMap<>();
+        scoreSounds.put(100, HC + "100 sc.wav");
+        scoreSounds.put(500, HC + "500 sc.wav");
+        scoreSounds.put(1000, HC + "1K sc.wav");
+        scoreSounds.put(1500, HC + "1500 sc.wav");
+        scoreSounds.put(2000, HC + "2K sc.wav");
+        scoreSounds.put(3000, HC + "3K sc.wav");
+        scoreSounds.put(4000, HC + "4K sc.wav");
+        scoreSounds.put(5000, HC + "5K sc.wav");
+    }
+
+    private void initializeHighScoreRandomSounds() {
+        // Add random sounds for scores above 5000
+        highScoreRandomSounds = new ArrayList<>();
+        highScoreRandomSounds.add(HC + "sc rand.wav");
+        highScoreRandomSounds.add(HC + "sc rand1.wav");
+        highScoreRandomSounds.add(HC + "sc rand2.wav");
+        highScoreRandomSounds.add(HC + "sc rand3.wav");
+        highScoreRandomSounds.add(HC + "sc rand4.wav");
+    }
+
+    public void checkAndPlayScoreSounds(int currentScore) {
+        // Play sounds for specific score milestones
+        for (Map.Entry<Integer, String> entry : scoreSounds.entrySet()) {
+            int milestone = entry.getKey();
+            if (currentScore >= milestone && lastMilestone < milestone) {
+                soundManager.playSound(entry.getValue());
+                lastMilestone = milestone; // Update last milestone to prevent replaying
+            }
+        }
+    
+        // If score is 5000 or above, play random sounds every 500 ticks
+        if (currentScore >= 5000 && currentScore / 500 > lastMilestone / 500) {
+            String randomSound = highScoreRandomSounds.get(new Random().nextInt(highScoreRandomSounds.size()));
+            soundManager.playSound(randomSound);
+            lastMilestone = (currentScore / 500) * 500; // Update to the nearest 500 tick milestone
+        }
     }
 
     public void play() {
@@ -75,7 +123,8 @@ public class Game {
             final String BOLD = "\u001B[1m";
             final String YELLOW = "\u001B[33m";
             final String CYAN = "\u001B[36m";
-            
+
+            checkAndPlayScoreSounds(board.getScore());
             System.out.println(BOLD + YELLOW + "Current Score: " + board.getScore() + RESET);
             System.out.println(BOLD + CYAN + "High Score: " + highScore + RESET);
             char move = getUserMove();

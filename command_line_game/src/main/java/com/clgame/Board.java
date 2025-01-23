@@ -8,7 +8,7 @@ public class Board {
     private static final char MOVE_RIGHT = 'D';
     private static final char MOVE_UP = 'W';
     private static final char MOVE_DOWN = 'S';
-    final String VERSION = "v1.9";
+    final String VERSION = "v2.1";
 
     private int score; // Track the score
     private int[][] board;
