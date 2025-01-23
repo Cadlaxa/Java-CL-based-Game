@@ -17,6 +17,7 @@ public class Game {
     private int lastHighestTile;
     private Map<Integer, List<String>> tileSounds; // Map to store tile-specific sounds
     private List<String> highTileSounds; // List for random sounds above 2048
+    private List<String> moveSounds; // List for random sounds for moves
     // HC sfx
     private Map<Integer, String> scoreSounds;
     private List<String> highScoreRandomSounds;
@@ -137,7 +138,15 @@ public class Game {
             char move = getUserMove();
             board.processMove(move);
             try {
-                soundManager.playSound(RES + "move.wav");
+                // Initialize random sounds for tiles higher than 2048
+                    moveSounds = new ArrayList<>();
+                    moveSounds.add(RES + "move.wav");
+                    moveSounds.add(RES + "move1.wav");
+                    moveSounds.add(RES + "move2.wav");
+                    moveSounds.add(RES + "move3.wav");
+                    moveSounds.add(RES + "move4.wav");
+                String randomMoveSound = moveSounds.get(random.nextInt(moveSounds.size()));
+                soundManager.playSound(randomMoveSound);
             } catch (Exception e) {
                 System.err.println("Error playing move sound: " + e.getMessage());
                 try {
