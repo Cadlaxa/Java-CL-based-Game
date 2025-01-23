@@ -281,7 +281,21 @@ public class Board {
     }
 
     private void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        // Check if the operating system is Windows
+        String os = System.getProperty("os.name").toLowerCase();
+        
+        if (os.contains("win")) {
+            try {
+                // Windows uses a different command to clear the console
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Use ANSI escape codes for Unix-based systems
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+        }
     }
+    
 }

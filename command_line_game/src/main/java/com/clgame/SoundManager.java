@@ -7,4 +7,5 @@ public interface SoundManager {
     void stopBackgroundMusic();
     void playSound(String fileName);
     void playRandomSound();
+    void playTileSound(int tileValue);
 }
