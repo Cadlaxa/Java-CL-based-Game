@@ -23,6 +23,7 @@ public class Game {
     private int lastMilestone = 0;
 
     final String RES = "command_line_game/src/main/resources/";
+    final String MELODY = "command_line_game/src/main/resources/melody/";
     final String TILES1 = "command_line_game/src/main/resources/tiles1/";
     final String TILES2 = "command_line_game/src/main/resources/tiles2/";
     final String HC = "command_line_game/src/main/resources/scores-sfx/";
@@ -108,11 +109,17 @@ public class Game {
 
         // Play background music
         List<String> musicFilePaths = List.of(
-        RES + "melody-loop3.wav",
-        RES + "melody-loop1.wav",
-        RES + "melody-loop2.wav",
-        RES + "melody-loop.wav"
-        // Add more music files as needed
+            MELODY + "melody-loop3.wav",
+            MELODY + "melody-loop1.wav",
+            MELODY + "melody-loop2.wav",
+            MELODY + "melody-loop.wav",
+            MELODY + "melody-loop4.wav",
+            MELODY + "melody-loop5.wav",
+            MELODY + "melody-loop6.wav",
+            MELODY + "melody-loop7.wav",
+            MELODY + "melody-loop8.wav",
+            MELODY + "melody-loop9.wav",
+            MELODY + "melody-loop10.wav"
         );
         soundManager.playBackgroundMusic(musicFilePaths);
 
