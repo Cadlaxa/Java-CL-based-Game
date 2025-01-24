@@ -64,7 +64,7 @@ public class SoundManagerImpl implements SoundManager {
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(musicFile);
             backgroundMusicClip = AudioSystem.getClip();
             backgroundMusicClip.open(audioIn);
-            setVolume(0.3f);  // Set volume level (0.0 - 1.0)
+            setVolume(0.4f);  // Set volume level (0.0 - 1.0)
             backgroundMusicClip.start();
     
             // Use a listener to play the next track when the current one finishes

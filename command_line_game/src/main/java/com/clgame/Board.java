@@ -35,29 +35,16 @@ public class Board {
     }
 
     public void showBoard() {
-		clearScreen();  // Clear screen before displaying the board
-
-		// ANSI escape codes for bold, foreground and background colors
-		final String RESET = "\u001B[0m";
-		final String BOLD = "\u001B[1m";
-	
-		// Colors for background (box) and foreground (number) text
-		final String RED = "\u001B[41m";      // Red background for 2
-		final String ORANGE = "\u001B[48;5;214m";  // Orange background for 4
-		final String YELLOW = "\u001B[43m";   // Yellow background for 8
-		final String GREEN = "\u001B[42m";    // Green background for 16
-		final String BLUE = "\u001B[44m";     // Blue background for 32
-		final String INDIGO = "\u001B[48;5;57m";  // Indigo background for 64
-		final String VIOLET = "\u001B[45m";    // Violet background for 128
-		final String PINK = "\u001B[48;5;213m";   // Pink background for 256
-		final String MAGENTA = "\u001B[48;5;201m";  // Magenta background for 512
-		final String CYAN = "\u001B[46m";     // Cyan background for 1024
-		final String GOLD = "\u001B[48;5;220m"; // Gold background for 2048
-		final String WHITE = "\u001B[47m";    // White background for others
-
-		final String YELLOWT = "\u001B[33m";
-
-		System.out.println(BOLD + YELLOWT + "\r\n" + 
+        clearScreen();  // Clear screen before displaying the board
+    
+        // ANSI escape codes for bold, foreground and background colors
+        final String RESET = "\u001B[0m";
+        final String BOLD = "\u001B[1m";
+    
+        // Colors for background (box) and foreground (number) text
+        final String YELLOWT = "\u001B[33m";
+    
+        System.out.println(BOLD + YELLOWT + "\r\n" + 
                     "   ____   ___  _  _    ___  \r\n" + 
                     "  |___ \\ / _ \\| || |  ( _ ) \r\n" + 
                     "    __) | | | | || |_ / _ \\ \r\n" + 
@@ -65,49 +52,51 @@ public class Board {
                     "  |_____|\\___/   |_|  \\___/ \r\n" + 
                     "         retro " + VERSION + "\r" + 
                     RESET);
-
-		// print the top separator (sa taas to ng box)
-		for (int i = 0; i < 4; i++) {
-			System.out.print(BOLD + "-------");
-		}
-		System.out.println();
-	
-		// print each row
-		for (int i = 0; i < 4; i++) {
-			// print the blank space before the row
-			System.out.print(BOLD + "|");
-			for (int j = 0; j < 4; j++) {
-				System.out.print(BOLD + "      |");
-			}
-			System.out.println();
-	
-			// print the first pipe symbol
-			System.out.print(BOLD + "|");
-			for (int j = 0; j < 4; j++) {
-				if (board[i][j] == 0) {
-					System.out.printf(BOLD + "  %-3s |", "");
-				} else {
-					String color = getColorForTile(board[i][j]);
-					String bgColor = getBackgroundColorForTile(board[i][j]);
-					System.out.printf(BOLD + "%s" + bgColor + BOLD + "  %-3s " + RESET + BOLD + "|", color, board[i][j]);
-				}
-			}
-			System.out.println();
-	
-			// print the blank space after the row
-			System.out.print(BOLD + "|");
-			for (int j = 0; j < 4; j++) {
-				System.out.print(BOLD + "      |");
-			}
-			System.out.println();
-	
-			// print the bottom separator
-			for (int j = 0; j < 4; j++) {
-				System.out.print(BOLD + "-------");
-			}
-			System.out.println();
-		}
-	}
+    
+        // Print the top separator (sa taas to ng box)
+        for (int i = 0; i < 4; i++) {
+            System.out.print(BOLD + "-------");
+        }
+        System.out.println();
+    
+        // Print each row
+        for (int i = 0; i < 4; i++) {
+            // Print the blank space before the row
+            System.out.print(BOLD + "|");
+            for (int j = 0; j < 4; j++) {
+                String pipColor = getBackgroundColorForTile(board[i][j]);
+                System.out.print(pipColor + BOLD + "      " + RESET + BOLD + "|");
+            }
+            System.out.println();
+    
+            // Print the first pipe symbol and tile values
+            System.out.print(BOLD + "|");
+            for (int j = 0; j < 4; j++) {
+                if (board[i][j] == 0) {
+                    System.out.printf(BOLD + "  %-3s |", "");
+                } else {
+                    String color = getColorForTile(board[i][j]);
+                    String bgColor = getBackgroundColorForTile(board[i][j]);
+                    System.out.printf(BOLD + "%s" + bgColor + BOLD + "  %-3s " + RESET + BOLD + "|", color, board[i][j]);
+                }
+            }
+            System.out.println();
+    
+            // Print the blank space after the row
+            System.out.print(BOLD + "|");
+            for (int j = 0; j < 4; j++) {
+                String pipColor = getBackgroundColorForTile(board[i][j]);
+                System.out.print(pipColor + BOLD + "      " + RESET + BOLD + "|");
+            }
+            System.out.println();
+    
+            // Print the bottom separator
+            for (int j = 0; j < 4; j++) {
+                System.out.print(BOLD + "-------");
+            }
+            System.out.println();
+        }
+    }    
 	
 	// This method returns the foreground (number) color
 	private String getColorForTile(int value) {
@@ -141,7 +130,7 @@ public class Board {
 			case 512: return "\u001B[48;5;201m"; // Magenta background for 512
 			case 1024: return "\u001B[46m";     // Cyan background for 1024
 			case 2048: return "\u001B[48;5;220m"; // Gold background for 2048
-			default: return "\u001B[47m";    // White background for others
+			default: return "";
 		}
 	}
 
