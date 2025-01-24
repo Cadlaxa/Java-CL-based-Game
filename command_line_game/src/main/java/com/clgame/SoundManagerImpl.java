@@ -10,6 +10,7 @@ import java.util.Random;
 
 public class SoundManagerImpl implements SoundManager {
     private Clip backgroundMusicClip;
+    private Clip audioClip;
     private Random random = new Random();
     private Map<Integer, List<String>> tileSounds;
     private List<String> highTileSounds; // List to store sounds for tiles greater than 2048
@@ -142,6 +143,10 @@ public class SoundManagerImpl implements SoundManager {
         // Random chance to play a tile sound based on the calculated probability
         if (random.nextInt(100) < 8) {
             String randomSound = randomTileSounds.get(random.nextInt(randomTileSounds.size()));
+            // Check if another sound is playing and stop it
+            if (audioClip != null && audioClip.isRunning()) {
+                audioClip.stop(); // Stop the currently playing audio
+            }
             playSound(randomSound);
         }
     }

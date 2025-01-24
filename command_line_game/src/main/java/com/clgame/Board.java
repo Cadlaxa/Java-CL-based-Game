@@ -243,7 +243,7 @@ public class Board {
             return false;
         }
 
-        return !userCanMakeAMove();
+        return !searchOnBoard(0) && !userCanMakeAMove();
     }
 
     public boolean gameWon() {
@@ -264,13 +264,29 @@ public class Board {
     private boolean userCanMakeAMove() {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                if (i > 0 && board[i][j] == board[i - 1][j]) return true; // Check up
-                if (j > 0 && board[i][j] == board[i][j - 1]) return true; // Check left
-                if (i < SIZE - 1 && board[i][j] == board[i + 1][j]) return true; // Check down
-                if (j < SIZE - 1 && board[i][j] == board[i][j + 1]) return true; // Check right
+                int current = board[i][j];
+                
+                // Check for empty tiles (should already be handled in `searchOnBoard(0)` but double-checking here for safety)
+                if (current == 0) {
+                    return true;
+                }
+                
+                // Check adjacent tiles for possible merges
+                if (i > 0 && current == board[i - 1][j]) { // Check above
+                    return true;
+                }
+                if (i < SIZE - 1 && current == board[i + 1][j]) { // Check below
+                    return true;
+                }
+                if (j > 0 && current == board[i][j - 1]) { // Check left
+                    return true;
+                }
+                if (j < SIZE - 1 && current == board[i][j + 1]) { // Check right
+                    return true;
+                }
             }
         }
-        return false;
+        return false; // No valid moves found
     }
 
     private void clearScreen() {
