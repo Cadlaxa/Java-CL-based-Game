@@ -296,7 +296,7 @@ public class Game {
             System.out.println(BOLD + CYAN + "\nYou WON SLAYED!"+ RESET);
             soundManager.playSound(RES + "win.wav");
             try {
-                Thread.sleep(3000);  // 3000 milliseconds = 3 seconds
+                Thread.sleep(10000);  // 10000 milliseconds = 10 seconds
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

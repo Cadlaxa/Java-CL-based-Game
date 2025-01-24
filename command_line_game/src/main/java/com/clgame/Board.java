@@ -50,7 +50,7 @@ public class Board {
                     "    __) | | | | || |_ / _ \\ \r\n" + 
                     "   / __/| |_| |__   _| (_) |\r\n" + 
                     "  |_____|\\___/   |_|  \\___/ \r\n" + 
-                    "         retro " + VERSION + "\r" + 
+                    "          retro " + VERSION + "\r" + 
                     RESET);
     
         // Print the top separator (sa taas to ng box)
@@ -77,7 +77,11 @@ public class Board {
                 } else {
                     String color = getColorForTile(board[i][j]);
                     String bgColor = getBackgroundColorForTile(board[i][j]);
-                    System.out.printf(BOLD + "%s" + bgColor + BOLD + "  %-3s " + RESET + BOLD + "|", color, board[i][j]);
+                    int tileLength = String.valueOf(board[i][j]).length();
+                    int padding = Math.max(0, (6 - tileLength) / 2); // Divide padding equally on both sides
+                    String leftPadding = " ".repeat(padding);
+                    String rightPadding = " ".repeat(6 - tileLength - padding); // Ensure total width is 6
+                    System.out.printf(BOLD + "%s" + bgColor + BOLD + "%s%d%s" + RESET + BOLD + "|", color, leftPadding, board[i][j], rightPadding);
                 }
             }
             System.out.println();
